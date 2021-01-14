@@ -38,6 +38,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<Role> findRoles() {
+        return roleMapper.selectAll();
+    }
+
+    @Override
     public void saveRole(Role role) {
         roleMapper.insert(role);
         for (Permission permission : role.getPermissions()) {
@@ -53,5 +58,11 @@ public class RoleServiceImpl implements RoleService {
         for (Permission permission : role.getPermissions()) {
             roleMapper.insertRoleAndPermissionRel(role.getRid(), permission.getPid());
         }
+    }
+
+    @Override
+    public void deleteRole(Role role) {
+        roleMapper.deleteRoleAndPermissionRel(role.getRid());
+        roleMapper.deleteByPrimaryKey(role.getRid());
     }
 }

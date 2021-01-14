@@ -58,7 +58,7 @@ $(function () {
     $("#dialog").dialog({
         title: '员工添加',
         width: 330,
-        height: 370,
+        height: 400,
         closed: true,
         buttons: [{
             text: '保存',
@@ -188,7 +188,7 @@ $(function () {
 
     /*部门选择，下拉列表*/
     $("#department").combobox({
-        width: 150,
+        width: 165,
         panelHeight: 'auto',
         editable: false, //不允许编辑
         valueField: 'id', //哪个字段发送给服务器
@@ -207,7 +207,7 @@ $(function () {
 
     /*是否为管理员，下拉列表*/
     $("#state").combobox({
-        width: 150,
+        width: 165,
         panelHeight: 'auto',
         editable: false, //不允许编辑
         valueField: 'value', //哪个字段发送给服务器
@@ -231,4 +231,23 @@ $(function () {
 
     });
 
+    /*选择角色下拉列表*/
+    $("#role").combobox({
+        width:165,
+        panelHeight:'auto',
+        editable:false,
+        url:'findRoles',
+        textField:'rname',
+        valueField:'rid',
+        multiple:true,
+        onLoadSuccess:function () { /*数据加载完毕之后回调*/
+            $("#role").each(function(i){
+                var span = $(this).siblings("span")[i];
+                var targetInput = $(span).find("input:first");
+                if(targetInput){
+                    $(targetInput).attr("placeholder", $(this).attr("placeholder"));
+                }
+            });
+        }
+    })
 });

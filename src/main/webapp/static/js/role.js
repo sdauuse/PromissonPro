@@ -43,14 +43,14 @@ $(function () {
             text: '保存',
             handler: function () {
                 /*判断当前是保存操作还是编辑操作*/
-                var rid =  $("[name='rid']").val();
+                var rid = $("[name='rid']").val();
                 var url;
-                if(rid){
+                if (rid) {
                     /*编辑*/
-                    url="updateRole"
-                }else {
+                    url = "updateRole"
+                } else {
                     /*保存*/
-                    url="saveRole";
+                    url = "saveRole";
                 }
 
                 /*提交表单*/
@@ -166,5 +166,33 @@ $(function () {
         $("#dialog").dialog("setTitle", "编辑角色");
         /*打开对话框*/
         $("#dialog").dialog("open");
+    });
+
+    /*删除按钮*/
+    $("#remove").click(function () {
+        /*获取当前选中的行*/
+        var rowData = $("#role_dg").datagrid("getSelected");
+        console.log(rowData);
+        if (!rowData) {
+            $.messager.alert("提示", "选择一行数据进行删除");
+            return;
+        }
+
+        $.messager.confirm("确认", "是否做删除操作", function (res) {
+            if (res) {
+                /*做离职操作*/
+                $.get("deleteRole?rid=" + rowData.rid, function (data) {
+                    if (data.success) {
+                        $.messager.alert("温馨提示", data.msg);
+                        /*重新加载数据表格*/
+                        $("#role_dg").datagrid("reload");
+                    } else {
+                        $.messager.alert("温馨提示", data.msg);
+                    }
+
+                });
+            }
+        });
+
     });
 });

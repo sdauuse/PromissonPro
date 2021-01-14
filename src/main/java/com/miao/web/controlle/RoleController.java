@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * @author miaoyin
  * @date 2021/1/13 - 13:59
@@ -33,6 +35,12 @@ public class RoleController {
     public PageListRes roleList(QueryVo queryVo) {
         PageListRes roles = roleService.findRoles(queryVo);
         return roles;
+    }
+
+    @RequestMapping("/findRoles")
+    @ResponseBody
+    public List<Role> findRoles(){
+        return roleService.findRoles();
     }
 
     @RequestMapping("/saveRole")
@@ -63,6 +71,21 @@ public class RoleController {
             ajaxRes.setMsg("修改角色失败");
         }
 
+        return ajaxRes;
+    }
+
+    @RequestMapping("/deleteRole")
+    @ResponseBody
+    public AjaxRes deleteRole(Role role){
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            roleService.deleteRole(role);
+            ajaxRes.setSuccess(true);
+            ajaxRes.setMsg("成功删除角色");
+        }catch (Exception e){
+            ajaxRes.setSuccess(false);
+            ajaxRes.setMsg("删除角色失败");
+        }
         return ajaxRes;
     }
 }
