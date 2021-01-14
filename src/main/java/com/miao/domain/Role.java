@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,4 +19,5 @@ public class Role {
 
     private String rname;
 
+    private List<Permission> permissions = new ArrayList<>();
 }

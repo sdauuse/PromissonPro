@@ -13,4 +13,6 @@ public interface PermissionMapper {
     List<Permission> selectAll();
 
     int updateByPrimaryKey(Permission record);
+
+    public List<Permission> findPermissionByRid(Long rid);
 }

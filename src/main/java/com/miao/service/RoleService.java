@@ -2,6 +2,7 @@ package com.miao.service;
 
 import com.miao.domain.PageListRes;
 import com.miao.domain.QueryVo;
+import com.miao.domain.Role;
 
 /**
  * @author miaoyin
@@ -10,4 +11,8 @@ import com.miao.domain.QueryVo;
  */
 public interface RoleService {
     public PageListRes findRoles(QueryVo queryVo);
+
+    public void saveRole(Role role);
+
+    public void updateRole(Role role);
 }

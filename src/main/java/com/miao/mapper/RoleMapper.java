@@ -2,6 +2,8 @@ package com.miao.mapper;
 
 import com.miao.domain.QueryVo;
 import com.miao.domain.Role;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface RoleMapper {
@@ -14,4 +16,8 @@ public interface RoleMapper {
     List<Role> selectAll();
 
     int updateByPrimaryKey(Role record);
+
+    void insertRoleAndPermissionRel(@Param("rid") Long rid, @Param("pid") Long pid);
+
+    void deleteRoleAndPermissionRel(Long rid);
 }
