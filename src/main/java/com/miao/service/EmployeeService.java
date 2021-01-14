@@ -2,6 +2,7 @@ package com.miao.service;
 
 import com.miao.domain.Employee;
 import com.miao.domain.PageListRes;
+import com.miao.domain.QueryVo;
 
 /**
  * @author miaoyin
@@ -10,7 +11,11 @@ import com.miao.domain.PageListRes;
  */
 public interface EmployeeService {
 
-    public PageListRes findEmployees();
+    public PageListRes findEmployees(QueryVo queryVo);
 
     public int saveEmployee(Employee employee);
+
+    public int updateEmployee(Employee employee);
+
+    public int updateState(Long id);
 }

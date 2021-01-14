@@ -99,7 +99,10 @@
 		</javaClientGenerator>
 
 <!--		<table tableName="employee"></table>-->
-		<table tableName="department"></table>
+<!--		<table tableName="department"></table>-->
+		<table tableName="permission"></table>
+		<table tableName="role"></table>
+
 
 
 	</context>

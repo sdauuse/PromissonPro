@@ -3,6 +3,7 @@ package com.miao.web.controlle;
 import com.miao.domain.AjaxRes;
 import com.miao.domain.Employee;
 import com.miao.domain.PageListRes;
+import com.miao.domain.QueryVo;
 import com.miao.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,8 @@ public class EmployeeController {
 
     @RequestMapping("/employeeList")
     @ResponseBody
-    public PageListRes employeeList() {
-        PageListRes pageListRes = employeeService.findEmployees();
+    public PageListRes employeeList(QueryVo queryVo) {
+        PageListRes pageListRes = employeeService.findEmployees(queryVo);
         return pageListRes;
     }
 
@@ -45,6 +46,39 @@ public class EmployeeController {
         }catch (Exception e){
             ajaxRes.setSuccess(false);
             ajaxRes.setMsg("保存失败");
+        }
+
+        return ajaxRes;
+    }
+
+    @RequestMapping("updateEmployee")
+    @ResponseBody
+    public AjaxRes updateEmployee(Employee employee){
+
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            employeeService.updateEmployee(employee);
+            ajaxRes.setSuccess(true);
+            ajaxRes.setMsg("修改成功");
+        }catch (Exception e){
+            ajaxRes.setSuccess(false);
+            ajaxRes.setMsg("修改失败");
+        }
+
+        return ajaxRes;
+    }
+
+    @RequestMapping("/updateState")
+    @ResponseBody
+    public AjaxRes updateState(Long id){
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            employeeService.updateState(id);
+            ajaxRes.setSuccess(true);
+            ajaxRes.setMsg("修改成功");
+        }catch (Exception e){
+            ajaxRes.setSuccess(false);
+            ajaxRes.setMsg("修改失败");
         }
 
         return ajaxRes;

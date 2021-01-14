@@ -9,7 +9,7 @@ $(function () {
             {field: 'email', title: '邮箱', width: 100, align: 'center'},
             {
                 field: 'department', title: '部门', width: 100, align: 'center', formatter: function (value, row, index) {
-                    if (value.name) {
+                    if (value) {
                         return value.name;
                     }
                 }
@@ -38,7 +38,19 @@ $(function () {
         fitColumns: true,//真正的自动展开/收缩列的大小，以适应网格的宽度，防止水平滚动。
         rownumbers: true,//显示一个行号列
         pagination: true,/*该分页控件允许用户导航页面的数据。它支持页面导航和页面长度选择的选项设置。用户可以在分页控件上添加自定义按钮，以增强其功能。*/
-        toolbar: "#tb" //添加工具栏
+        singleSelect: true,
+        striped: true,
+        toolbar: "#tb", //添加工具栏
+        onClickRow:function (rowIndex,rowData) {
+            /*判断当前行是否是离职状态*/
+            if(!rowData.state){
+                /*离职,把离职按钮禁用*/
+                $("#delete").linkbutton("disable");
+            }else {
+                /*离职,把离职按钮启用*/
+                $("#delete").linkbutton("enable");
+            }
+        }
     });
 
 
@@ -51,10 +63,20 @@ $(function () {
         buttons: [{
             text: '保存',
             handler: function () {
+                /*通过是否存在id，判断是新增还是修改操作*/
+                var url;
+                /*把name = id 的值取出来*/
+                var id = $("[name='id']").val();
+                if (id) {
+                    url = "updateEmployee";
+                } else {
+                    url = "saveEmployee";
+                }
+
                 /*提交表单*/
                 // $('#employeeForm').attr("method", 'post');
                 $("#employeeForm").form("submit", {
-                    url: "saveEmployee",
+                    url: url,
                     method: 'post',
                     success: function (data) {
                         data = $.parseJSON(data);
@@ -86,12 +108,83 @@ $(function () {
 
     /*监听添加按钮点击*/
     $("#add").click(function () {
+
+        /*将密码字段改为必填字段*/
+        $("[name='password']").validatebox({required: true});
+
+        $("#password").show();
         /*清空表单*/
         $('#employeeForm').form('clear');
         /*打开表单*/
         $("#dialog").dialog("open");
 
     });
+
+    /*监听编辑按钮*/
+    $("#edit").click(function () {
+        var rowData = $("#dg").datagrid("getSelected");
+        /*如果没有选中数据*/
+        if (!rowData) {
+            $.messager.alert("提示", "请选择一行数据进行编辑");
+            return;
+        }
+
+        /*将密码字段的必填框去掉*/
+        $("[name='password']").validatebox({required: false});
+        /*弹出对话框*/
+        $("#password").hide();
+        $("#dialog").dialog("setTitle", "编辑员工");
+        /*回显部门*/
+        rowData["department.id"] = rowData["department"].id;
+        /*回显管理员*/
+        rowData["admin"] = rowData["admin"] + "";
+
+        $("#dialog").dialog("open");
+        $("#employeeForm").form("load", rowData);
+
+    });
+
+    /*设置员工离职状态*/
+    $("#delete").click(function () {
+        /*选中当前行*/
+        var rowData = $("#dg").datagrid("getSelected");
+        if (!rowData) {
+            $.messager.alert("提示", "请选择一行进行编辑");
+            return;
+        }
+        $.messager.confirm("确认", "是否做离职操作", function (res) {
+            if (res) {
+                /*做离职操作*/
+                $.get("updateState?id=" + rowData.id, function (data) {
+                    if (data.success) {
+                        $.messager.alert("温馨提示", data.msg);
+                        /*重新加载数据表格*/
+                        $("#dg").datagrid("reload");
+                    } else {
+                        $.messager.alert("温馨提示", data.msg);
+                    }
+
+                });
+            }
+        });
+
+    });
+
+    /*监听搜索按钮点击*/
+    $("#searchbtn").click(function () {
+        /*获取搜索的内容*/
+        var keyword =  $("[name='keyword']").val();
+        /*重新加载列表  把参数keyword传过去*/
+        $("#dg").datagrid("load",{keyword:keyword});
+    });
+    /*监听刷新点击*/
+    $("#reload").click(function () {
+        /*清空搜索内容*/
+        $("[name='keyword']").val('');
+        /*重新加载数据*/
+        $("#dg").datagrid("load",{});
+    });
+
 
     /*部门选择，下拉列表*/
     $("#department").combobox({

@@ -28,27 +28,47 @@
       #{tel}, #{email}, #{state}, #{admin},
       #{department.id}, #{password})
   </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.miao.domain.Employee">
-    update employee
-    set username = #{username,jdbcType=VARCHAR},
-      inputtime = #{inputtime,jdbcType=TIMESTAMP},
-      tel = #{tel,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      state = #{state,jdbcType=BIT},
-      admin = #{admin,jdbcType=BIT},
-      dep_id = #{depId,jdbcType=BIGINT},
-      password = #{password,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        update employee
+        set username = #{username},
+          inputtime = #{inputtime},
+          tel = #{tel},
+          email = #{email},
+          admin = #{admin},
+          dep_id = #{department.id},
+          password = #{password}
+        where id = #{id}
+    </update>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
     select id, username, inputtime, tel, email, state, admin, dep_id, password
     from employee
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+    <!--动态拼接keyword-->
+    <sql id="keywordSql">
+
+        <where>
+            <if test="keyword !=null and keyword!=''">
+                and e.username like concat('%',#{keyword},'%')
+                or e.tel like concat('%',#{keyword},'%')
+                or e.email like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </sql>
+
     <select id="selectAll" resultMap="BaseResultMap">
         SELECT e.`id` ,username,inputtime,tel,email,state,admin,d.`id` AS dep_id,d.`name` AS dep_name
         FROM employee e
         LEFT JOIN department d
         ON d.`id`=e.`dep_id`
+        <include refid="keywordSql"/>
+        order by e.id
   </select>
+
+    <update id="updateState" parameterType="long">
+        update `employee` set  state=0
+        where id = #{id}
+    </update>
 </mapper>

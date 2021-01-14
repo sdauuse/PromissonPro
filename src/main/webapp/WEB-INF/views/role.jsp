@@ -9,8 +9,17 @@
 <html>
 <head>
     <title>Title</title>
+    <%@include file="/static/common/common.jsp" %>
+    <script src="${pageContext.request.contextPath}/static/js/role.js"></script>
 </head>
 <body>
-<h1>role主页</h1>
+<%--工具栏--%>
+<div id="toolbar">
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="add">添加</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" id="edit">编辑</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="remove">删除</a>
+</div>
+
+<div id="role_dg"></div>
 </body>
 </html>

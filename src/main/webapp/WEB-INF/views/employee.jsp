@@ -18,9 +18,10 @@
 <div id="tb">
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="add">添加</a>
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" id="edit">编辑</a>
-    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="delete">删除</a>
+    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="delete">离职</a>
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" id="reload">刷新</a>
-
+    <input type="text" name="keyword" style="width: 200px; height: 30px;padding-left: 5px;">
+    <a class="easyui-linkbutton" iconCls="icon-search" id="searchbtn">查询</a>
 </div>
 <%--数据表格--%>
 <table id="dg"></table>
@@ -62,7 +63,7 @@
 <div id="dialog">
     <form id="employeeForm">
         <%--添加一个隐藏域  编辑--%>
-<%--        <input type="hidden" name="id">--%>
+        <input type="hidden" name="id">
         <table align="center" style="border-spacing: 0px 10px">
             <tr>
                 <td>用户名:</td>

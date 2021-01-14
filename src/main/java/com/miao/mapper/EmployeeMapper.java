@@ -1,6 +1,8 @@
 package com.miao.mapper;
 
 import com.miao.domain.Employee;
+import com.miao.domain.QueryVo;
+
 import java.util.List;
 
 public interface EmployeeMapper {
@@ -10,7 +12,10 @@ public interface EmployeeMapper {
 
     Employee selectByPrimaryKey(Long id);
 
-    List<Employee> selectAll();
+    List<Employee> selectAll(QueryVo queryVo);
 
     int updateByPrimaryKey(Employee record);
+
+    /*修改离职状态*/
+    int updateState(Long id);
 }
