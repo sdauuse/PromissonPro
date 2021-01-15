@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.miao.domain.Employee;
 import com.miao.domain.PageListRes;
 import com.miao.domain.QueryVo;
+import com.miao.domain.Role;
 import com.miao.mapper.EmployeeMapper;
 import com.miao.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,17 +41,34 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public int saveEmployee(Employee employee) {
-        return employeeMapper.insert(employee);
+        int i = employeeMapper.insert(employee);
+
+        for (Role role : employee.getRoles()) {
+
+            employeeMapper.insertEmployeeAndRoleRel(employee.getId(), role.getRid());
+        }
+
+        return i;
     }
 
     @Override
     public int updateEmployee(Employee employee) {
-        return employeeMapper.updateByPrimaryKey(employee);
+        employeeMapper.deleteEmployeeAndRoleRel(employee.getId());
+        int i = employeeMapper.updateByPrimaryKey(employee);
+        for (Role role : employee.getRoles()) {
+            employeeMapper.insertEmployeeAndRoleRel(employee.getId(), role.getRid());
+        }
+        return i;
     }
 
     @Override
     public int updateState(Long id) {
         return employeeMapper.updateState(id);
+    }
+
+    @Override
+    public List<Long> getRoleByEid(Long eid) {
+        return employeeMapper.getRoleByEid(eid);
     }
 
 

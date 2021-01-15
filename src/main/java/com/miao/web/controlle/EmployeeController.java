@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author miaoyin
  * @date 2021/1/13 - 13:55
@@ -43,7 +45,7 @@ public class EmployeeController {
             employeeService.saveEmployee(employee);
             ajaxRes.setSuccess(true);
             ajaxRes.setMsg("保存成功");
-        }catch (Exception e){
+        } catch (Exception e) {
             ajaxRes.setSuccess(false);
             ajaxRes.setMsg("保存失败");
         }
@@ -53,14 +55,14 @@ public class EmployeeController {
 
     @RequestMapping("updateEmployee")
     @ResponseBody
-    public AjaxRes updateEmployee(Employee employee){
+    public AjaxRes updateEmployee(Employee employee) {
 
         AjaxRes ajaxRes = new AjaxRes();
         try {
             employeeService.updateEmployee(employee);
             ajaxRes.setSuccess(true);
             ajaxRes.setMsg("修改成功");
-        }catch (Exception e){
+        } catch (Exception e) {
             ajaxRes.setSuccess(false);
             ajaxRes.setMsg("修改失败");
         }
@@ -70,17 +72,24 @@ public class EmployeeController {
 
     @RequestMapping("/updateState")
     @ResponseBody
-    public AjaxRes updateState(Long id){
+    public AjaxRes updateState(Long id) {
         AjaxRes ajaxRes = new AjaxRes();
         try {
             employeeService.updateState(id);
             ajaxRes.setSuccess(true);
             ajaxRes.setMsg("修改成功");
-        }catch (Exception e){
+        } catch (Exception e) {
             ajaxRes.setSuccess(false);
             ajaxRes.setMsg("修改失败");
         }
 
         return ajaxRes;
+    }
+
+    @RequestMapping("/getRoleByEid")
+    @ResponseBody
+    public List<Long> getRoleByEid(Long id) {
+        List<Long> longs = employeeService.getRoleByEid(id);
+        return longs;
     }
 }

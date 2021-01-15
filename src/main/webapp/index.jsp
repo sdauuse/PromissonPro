@@ -23,7 +23,7 @@
 </div>
 
 <div data-options="region:'south'" style="height:50px; border-bottom: 3px solid #ec4e00">
-    <p align="center" style="font-size: 14px">撩课学院</p>
+    <p align="center" style="font-size: 14px">权限管理系统v1.0</p>
 </div>
 
 <div data-options="region:'west',split:true" style="width:300px;">

@@ -20,4 +20,5 @@ public class Role {
     private String rname;
 
     private List<Permission> permissions = new ArrayList<>();
+
 }

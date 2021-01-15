@@ -41,12 +41,12 @@ $(function () {
         singleSelect: true,
         striped: true,
         toolbar: "#tb", //添加工具栏
-        onClickRow:function (rowIndex,rowData) {
+        onClickRow: function (rowIndex, rowData) {
             /*判断当前行是否是离职状态*/
-            if(!rowData.state){
+            if (!rowData.state) {
                 /*离职,把离职按钮禁用*/
                 $("#delete").linkbutton("disable");
-            }else {
+            } else {
                 /*离职,把离职按钮启用*/
                 $("#delete").linkbutton("enable");
             }
@@ -78,6 +78,14 @@ $(function () {
                 $("#employeeForm").form("submit", {
                     url: url,
                     method: 'post',
+                    onSubmit: function (param) {
+                        /*获取选中的角色*/
+                        var values = $("#role").combobox("getValues");
+                        for (var i = 0; i < values.length; i++) {
+                            var rid = values[i];
+                            param["roles[" + i + "].rid"] = rid;
+                        }
+                    },
                     success: function (data) {
                         data = $.parseJSON(data);
                         if (data.success) {
@@ -134,12 +142,20 @@ $(function () {
         /*弹出对话框*/
         $("#password").hide();
         $("#dialog").dialog("setTitle", "编辑员工");
+        $("#dialog").dialog("open");
         /*回显部门*/
         rowData["department.id"] = rowData["department"].id;
+
         /*回显管理员*/
         rowData["admin"] = rowData["admin"] + "";
 
-        $("#dialog").dialog("open");
+        /*回显角色*/
+        /*根据当前用户的id,查出对应的角色*/
+        $.get("getRoleByEid?id=" + rowData.id, function (data) {
+            /*设置下拉列表数据回显*/
+            $("#role").combobox("setValues", data);
+        });
+
         $("#employeeForm").form("load", rowData);
 
     });
@@ -173,16 +189,16 @@ $(function () {
     /*监听搜索按钮点击*/
     $("#searchbtn").click(function () {
         /*获取搜索的内容*/
-        var keyword =  $("[name='keyword']").val();
+        var keyword = $("[name='keyword']").val();
         /*重新加载列表  把参数keyword传过去*/
-        $("#dg").datagrid("load",{keyword:keyword});
+        $("#dg").datagrid("load", {keyword: keyword});
     });
     /*监听刷新点击*/
     $("#reload").click(function () {
         /*清空搜索内容*/
         $("[name='keyword']").val('');
         /*重新加载数据*/
-        $("#dg").datagrid("load",{});
+        $("#dg").datagrid("load", {});
     });
 
 
@@ -233,18 +249,18 @@ $(function () {
 
     /*选择角色下拉列表*/
     $("#role").combobox({
-        width:165,
-        panelHeight:'auto',
-        editable:false,
-        url:'findRoles',
-        textField:'rname',
-        valueField:'rid',
-        multiple:true,
-        onLoadSuccess:function () { /*数据加载完毕之后回调*/
-            $("#role").each(function(i){
+        width: 165,
+        panelHeight: 'auto',
+        editable: false,
+        url: 'findRoles',
+        textField: 'rname',
+        valueField: 'rid',
+        multiple: true,
+        onLoadSuccess: function () { /*数据加载完毕之后回调*/
+            $("#role").each(function (i) {
                 var span = $(this).siblings("span")[i];
                 var targetInput = $(span).find("input:first");
-                if(targetInput){
+                if (targetInput) {
                     $(targetInput).attr("placeholder", $(this).attr("placeholder"));
                 }
             });

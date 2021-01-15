@@ -27,39 +27,6 @@
 <table id="dg"></table>
 
 <%--对话框--%>
-<%--<table id="dialog" align="center" style="border-spacing: 0px 10px">
-    <form id="employeeForm">
-        <tr>
-            <td align="center">用户名:</td>
-            <td><input name="username" type="text" class="easyui-validatebox" data-options="required:true"></td>
-        </tr>
-        <tr>
-            <td align="center">密码:</td>
-            <td><input name="password" type="text" class="easyui-validatebox" data-options="required:true"></td>
-        </tr>
-        <tr>
-            <td align="center">手机:</td>
-            <td><input name="tel" type="text" class="easyui-validatebox"></td>
-        </tr>
-        <tr>
-            <td align="center">邮箱:</td>
-            <td><input name="email" type="text" class="easyui-validatebox"
-                       data-options="required:true,validType:'email'"></td>
-        </tr>
-        <tr>
-            <td align="center">入职日期:</td>
-            <td><input name="inputtime" type="text" class="easyui-datebox" required="required"></td>
-        </tr>
-        <tr>
-            <td align="center">部门:</td>
-            <td><input name="department.id" id="department" placeholder="请选择部门"></td>
-        </tr>
-        <tr>
-            <td align="center">是否管理员:</td>
-            <td><input name="admin" id="state" placeholder="是否为管理员"></td>
-        </tr>
-    </form>
-</table>--%>
 <div id="dialog">
     <form id="employeeForm">
         <%--添加一个隐藏域  编辑--%>
@@ -87,15 +54,15 @@
             </tr>
             <tr>
                 <td>部门:</td>
-                <td><input id="department" name="department.id" placeholder="请选择部门"/></td>
+                <td><input id="department" name="department.id" placeholder="请选择部门" /></td>
             </tr>
             <tr>
                 <td>是否管理员:</td>
-                <td><input id="state" name="admin" placeholder="是否为管理员"/></td>
+                <td><input id="state" name="admin" placeholder="是否为管理员" /></td>
             </tr>
             <tr>
                 <td>选择角色:</td>
-                <td><input id="role" name="role.rid" placeholder="请选择角色"/></td>
+                <td><input id="role" name="role.rid" placeholder="请选择角色" /></td>
             </tr>
         </table>
     </form>

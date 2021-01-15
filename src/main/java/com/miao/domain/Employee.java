@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @ToString
 @AllArgsConstructor
@@ -36,4 +38,5 @@ public class Employee {
 
     private String password;
 
+    private List<Role> roles = new ArrayList<>();
 }

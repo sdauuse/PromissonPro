@@ -2,6 +2,7 @@ package com.miao.mapper;
 
 import com.miao.domain.Employee;
 import com.miao.domain.QueryVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,10 @@ public interface EmployeeMapper {
 
     /*修改离职状态*/
     int updateState(Long id);
+
+    void insertEmployeeAndRoleRel(@Param("id") Long id, @Param("rid") Long rid);
+
+    List<Long> getRoleByEid(Long eid);
+
+    void deleteEmployeeAndRoleRel(Long id);
 }

@@ -20,14 +20,19 @@
     delete from employee
     where id = #{id,jdbcType=BIGINT}
   </delete>
-    <insert id="insert" parameterType="com.miao.domain.Employee">
-    insert into employee (id, username, inputtime, 
-      tel, email, state, admin, 
+    <insert id="insert" parameterType="com.miao.domain.Employee" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
+    insert into employee (id, username, inputtime,
+      tel, email, state, admin,
       dep_id, password)
     values (#{id}, #{username}, #{inputtime},
       #{tel}, #{email}, #{state}, #{admin},
       #{department.id}, #{password})
   </insert>
+    <insert id="insertEmployeeAndRoleRel">
+        insert into employee_role_rel(eid,rid)
+        values (#{id},#{rid})
+    </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.miao.domain.Employee">
         update employee
@@ -65,10 +70,19 @@
         ON d.`id`=e.`dep_id`
         <include refid="keywordSql"/>
         order by e.id
-  </select>
+    </select>
 
     <update id="updateState" parameterType="long">
         update `employee` set  state=0
         where id = #{id}
     </update>
+
+    <select id="getRoleByEid" resultType="java.lang.Long" parameterType="long">
+        select rid from employee_role_rel
+        where eid=#{eid}
+    </select>
+    <delete id="deleteEmployeeAndRoleRel" parameterType="long">
+        delete from employee_role_rel
+        where eid=#{id}
+    </delete>
 </mapper>
