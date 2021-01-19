@@ -22,4 +22,10 @@ public interface EmployeeService {
     public int updateState(Long id);
 
     List<Long> getRoleByEid(Long eid);
+
+    Employee getEmployeeByUsername(String username);
+
+    List<String> getRolesById(Long id);
+
+    List<String> getPermissionById(Long id);
 }

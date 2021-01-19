@@ -25,4 +25,10 @@ public interface EmployeeMapper {
     List<Long> getRoleByEid(Long eid);
 
     void deleteEmployeeAndRoleRel(Long id);
+
+    Employee getEmployeeByUsername(String username);
+
+    List<String> getRolesById(Long id);
+
+    List<String> getPermissionById(Long id);
 }

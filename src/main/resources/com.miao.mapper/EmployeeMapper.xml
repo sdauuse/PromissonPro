@@ -81,6 +81,24 @@
         select rid from employee_role_rel
         where eid=#{eid}
     </select>
+    <select id="getEmployeeByUsername" resultType="com.miao.domain.Employee">
+        select * from `employee` where username = #{username}
+    </select>
+    <select id="getRolesById" resultType="java.lang.String">
+        SELECT r.`rnum`
+        FROM employee e , employee_role_rel er,role r
+        WHERE e.`id`=er.`eid`
+        AND er.`rid`=r.`rid`
+        AND e.`id`=#{id}
+    </select>
+    <select id="getPermissionById" resultType="java.lang.String">
+        SELECT DISTINCT p.`presource`
+        FROM role_permission_rel rp,permission p,role r
+        WHERE rp.`pid`=p.`pid`
+        AND rp.`rid`=r.`rid`
+        AND r.`rid` IN (SELECT rid FROM employee_role_rel er WHERE er.`eid`=#{id})
+
+    </select>
     <delete id="deleteEmployeeAndRoleRel" parameterType="long">
         delete from employee_role_rel
         where eid=#{id}

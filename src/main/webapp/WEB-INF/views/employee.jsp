@@ -16,9 +16,18 @@
 <%--<h1>employee主页</h1>--%>
 <%--工具栏--%>
 <div id="tb">
-    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="add">添加</a>
-    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" id="edit">编辑</a>
-    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="delete">离职</a>
+    <shiro:hasPermission name="employee:add">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="add">添加</a>
+    </shiro:hasPermission>
+
+    <shiro:hasPermission name="employee:edit">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" id="edit">编辑</a>
+    </shiro:hasPermission>
+
+    <shiro:hasPermission name="employee:delete">
+        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="delete">离职</a>
+    </shiro:hasPermission>
+
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" id="reload">刷新</a>
     <input type="text" name="keyword" style="width: 200px; height: 30px;padding-left: 5px;">
     <a class="easyui-linkbutton" iconCls="icon-search" id="searchbtn">查询</a>
@@ -42,11 +51,11 @@
             </tr>
             <tr>
                 <td>手机:</td>
-                <td><input type="text" name="tel" class="easyui-validatebox" ></td>
+                <td><input type="text" name="tel" class="easyui-validatebox"></td>
             </tr>
             <tr>
                 <td>邮箱:</td>
-                <td><input type="text" name="email" class="easyui-validatebox" ></td>
+                <td><input type="text" name="email" class="easyui-validatebox"></td>
             </tr>
             <tr>
                 <td>入职日期:</td>
@@ -54,15 +63,15 @@
             </tr>
             <tr>
                 <td>部门:</td>
-                <td><input id="department" name="department.id" placeholder="请选择部门" /></td>
+                <td><input id="department" name="department.id" placeholder="请选择部门"/></td>
             </tr>
             <tr>
                 <td>是否管理员:</td>
-                <td><input id="state" name="admin" placeholder="是否为管理员" /></td>
+                <td><input id="state" name="admin" placeholder="是否为管理员"/></td>
             </tr>
             <tr>
                 <td>选择角色:</td>
-                <td><input id="role" name="role.rid" placeholder="请选择角色" /></td>
+                <td><input id="role" name="role.rid" placeholder="请选择角色"/></td>
             </tr>
         </table>
     </form>
