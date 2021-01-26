@@ -102,7 +102,8 @@
 <!--		<table tableName="department"></table>-->
 <!--		<table tableName="permission"></table>-->
 <!--		<table tableName="role"></table>-->
-		<table tableName="menu"></table>
+<!--		<table tableName="menu"></table>-->
+		<table tableName="systemlog"></table>
 
 
 
