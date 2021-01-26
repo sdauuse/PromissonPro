@@ -64,9 +64,9 @@
     </bean>
 
     <!-- 缓存管理器 -->
-    <bean id="ehCache" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>
-    </bean>
+<!--    <bean id="ehCache" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+<!--        <property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>-->
+<!--    </bean>-->
 
 
     <!-- 配置shiro安全管理器 -->
@@ -74,7 +74,7 @@
         <!--注入realm-->
         <property name="realm" ref="employeeRealm"/>
         <!--注入缓存-->
-        <property name="cacheManager" ref="ehCache"/>
+<!--        <property name="cacheManager" ref="ehCache"/>-->
     </bean>
 
     <!--

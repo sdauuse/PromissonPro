@@ -1,38 +1,80 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.miao.mapper.MenuMapper" >
-  <resultMap id="BaseResultMap" type="com.miao.domain.Menu" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="text" property="text" jdbcType="VARCHAR" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
-    <result column="permission_id" property="permissionId" jdbcType="BIGINT" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+<mapper namespace="com.miao.mapper.MenuMapper">
+    <resultMap id="BaseResultMap" type="com.miao.domain.Menu">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="text" property="text" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+
+        <association property="parent" javaType="com.miao.domain.Menu" columnPrefix="m_">
+            <result column="id" property="id"/>
+            <result column="url" property="url"/>
+            <result column="text" property="text"/>
+        </association>
+
+        <association property="permission" javaType="com.miao.domain.Permission">
+            <result property="pid" column="pid"/>
+            <result property="pname" column="pname"/>
+            <result property="presource" column="presource"/>
+        </association>
+
+        <!--用分布查询,ofType是List的时候用,即在List<Menu> children这样的情况用;javaType是一个对象的时候用-->
+        <collection property="children" ofType="com.miao.domain.Menu" select="listChildMenu" column="id" />
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from menu
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.miao.domain.Menu" >
-    insert into menu (id, text, url, 
-      parent_id, permission_id)
-    values (#{id,jdbcType=BIGINT}, #{text,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=BIGINT}, #{permissionId,jdbcType=BIGINT})
+    <insert id="insert" parameterType="com.miao.domain.Menu">
+    insert into menu (id, text, url, parent_id)
+        values (#{id}, #{text}, #{url},#{parent.id})
   </insert>
-  <update id="updateByPrimaryKey" parameterType="com.miao.domain.Menu" >
+    <update id="updateByPrimaryKey" parameterType="com.miao.domain.Menu">
     update menu
-    set text = #{text,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=BIGINT},
-      permission_id = #{permissionId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
+    set text = #{text},
+      url = #{url},
+      parent_id = #{parent.id}
+    where id = #{id}
   </update>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    <update id="updateMenuRel">
+         UPDATE menu SET parent_id=NULL
+        WHERE parent_id = #{id}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
     select id, text, url, parent_id, permission_id
     from menu
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap" >
-    select id, text, url, parent_id, permission_id
-    from menu
+    <select id="selectAll" resultMap="BaseResultMap">
+   SELECT
+    m1.id,
+    m1.text,
+    m1.url,
+    m2.id as m_id,
+    m2.text as m_text,
+    m2.url as m_url
+    from menu  as m1
+    LEFT JOIN menu as m2
+    ON m1.parent_id = m2.id
+    order by m1.id desc
   </select>
+    <select id="selectParentId" resultType="java.lang.Long">
+        select parent_id from menu where id = #{id}
+  </select>
+    <!--获取树形菜单数据
+     分步查询  先查根菜单
+     根据根菜单的id  查询出子菜单
+   -->
+    <select id="getTreeData" resultMap="BaseResultMap">
+        select * from menu as m
+        LEFT JOIN permission as p
+        on m.permission_id = p.pid where parent_id is null
+    </select>
+
+    <!--根据根菜单的id  查询出子菜单-->
+    <select id="listChildMenu" resultMap="BaseResultMap">
+        select * from menu as m
+        LEFT JOIN permission as p
+        on m.permission_id = p.pid where parent_id = #{id}
+    </select>
 </mapper>

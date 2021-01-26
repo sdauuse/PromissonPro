@@ -13,4 +13,10 @@ public interface MenuMapper {
     List<Menu> selectAll();
 
     int updateByPrimaryKey(Menu record);
+
+    Long selectParentId(Long id);
+
+    void updateMenuRel(Long id);
+
+    List<Menu> getTreeData();
 }
