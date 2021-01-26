@@ -41,6 +41,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public PageListRes findEmployees() {
+        List<Employee> employees = employeeMapper.selectAllNoArg();
+        PageListRes pageListRes = new PageListRes();
+        pageListRes.setRows(employees);
+        return pageListRes;
+    }
+
+    @Override
     public int saveEmployee(Employee employee) {
         /*给用户密码用md5加密，参数依次是密码，加盐，散列几次*/
         Md5Hash md5Hash = new Md5Hash(employee.getPassword(), employee.getUsername(), 2);

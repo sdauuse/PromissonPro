@@ -15,6 +15,8 @@ public interface EmployeeService {
 
     public PageListRes findEmployees(QueryVo queryVo);
 
+    public PageListRes findEmployees();
+
     public int saveEmployee(Employee employee);
 
     public int updateEmployee(Employee employee);

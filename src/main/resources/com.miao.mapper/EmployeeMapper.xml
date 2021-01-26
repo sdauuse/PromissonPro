@@ -99,6 +99,10 @@
         AND r.`rid` IN (SELECT rid FROM employee_role_rel er WHERE er.`eid`=#{id})
 
     </select>
+    <select id="selectAllNoArg" resultType="com.miao.domain.Employee">
+        SELECT e.`id` ,username,inputtime,tel,email
+        FROM employee e
+    </select>
     <delete id="deleteEmployeeAndRoleRel" parameterType="long">
         delete from employee_role_rel
         where eid=#{id}

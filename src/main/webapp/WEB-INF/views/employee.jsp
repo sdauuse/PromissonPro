@@ -13,6 +13,17 @@
     <script src="${pageContext.request.contextPath}/static/js/employee.js"></script>
 </head>
 <body>
+<%--excel上传表单--%>
+<div id="excelUpload">
+    <form method="post" enctype="multipart/form-data" id="uploadForm">
+        <tabel>
+            <tr>
+                <td><input type="file" name="excel" style="width: 180px; margin-top: 20px; margin-left: 5px;"></td>
+                <td><a href="javascript:void(0);"  id="downloadTml">下载模板</a></td>
+            </tr>
+        </tabel>
+    </form>
+</div>
 <%--<h1>employee主页</h1>--%>
 <%--工具栏--%>
 <div id="tb">
@@ -31,6 +42,8 @@
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" id="reload">刷新</a>
     <input type="text" name="keyword" style="width: 200px; height: 30px;padding-left: 5px;">
     <a class="easyui-linkbutton" iconCls="icon-search" id="searchbtn">查询</a>
+    <a class="easyui-linkbutton" iconCls="icon-edit" id="excelOut">Excel导出</a>
+    <a class="easyui-linkbutton" iconCls="icon-edit" id="excelIn">Excel导入</a>
 </div>
 <%--数据表格--%>
 <table id="dg"></table>

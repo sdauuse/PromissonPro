@@ -15,6 +15,8 @@ public interface EmployeeMapper {
 
     List<Employee> selectAll(QueryVo queryVo);
 
+    List<Employee> selectAllNoArg();
+
     int updateByPrimaryKey(Employee record);
 
     /*修改离职状态*/
